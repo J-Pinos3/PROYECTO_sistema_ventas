@@ -38,7 +38,7 @@
             </constraints>
             <properties>
               <icon value="Img/iniciar.png"/>
-              <text value="Label"/>
+              <text value=""/>
             </properties>
           </component>
           <hspacer id="fdd64">
