@@ -11,52 +11,69 @@ public class Sistema {
     private JButton proveedoresButton;
     private JButton ventasButton;
     private JButton configButton;
-    private JButton button1;
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JTextField textField5;
-    private JTable table1;
-    private JTextField textField6;
-    private JTextField textField7;
-    private JButton button2;
-    private JTextField textField8;
-    private JTextField textField9;
-    private JTextField textField10;
-    private JTextField textField11;
-    private JTextField textField12;
-    private JTable table2;
-    private JButton button3;
-    private JButton button4;
-    private JButton button5;
-    private JButton button6;
-    private JTextField textField13;
-    private JTextField textField14;
-    private JTextField textField15;
-    private JTextField textField16;
-    private JTextField textField17;
-    private JTable table3;
-    private JButton button7;
-    private JButton button8;
-    private JButton button9;
-    private JButton button10;
-    private JTextField textField18;
-    private JTextField textField19;
-    private JTextField textField20;
-    private JTextField textField21;
-    private JTable table4;
-    private JButton button11;
-    private JButton button12;
-    private JButton button13;
-    private JButton button14;
-    private JComboBox comboBox1;
-    private JButton button15;
+    private JButton btnEliminarVenta;
+    private JTextField txtCodigoVenta;
+    private JTextField txtDescripcionVenta;
+    private JTextField txtCantidadVenta;
+    private JTextField txtPrecioVenta;
+    private JTextField txtStockDisponible;
+    private JTable TableVenta;
+    private JTextField txtRucVenta;
+    private JTextField txtNombreClienteVenta;
+    private JButton btnGenerarVenta;
+    private JTextField txtDniCliente;
+    private JTextField txtNombreCliente;
+    private JTextField txtTelefonoCliente;
+    private JTextField txtDireccionCliente;
+    private JTextField txtRazonCliente;
+    private JTable TableCliente;
+    private JButton btnGuardarCliente;
+    private JButton btnEditarCliente;
+    private JButton btnEliminarCliente;
+    private JButton btnNuevoCliente;
+    private JTextField txtRucProveedor;
+    private JTextField txtNombreProveedor;
+    private JTextField txtTelefonoProveedor;
+    private JTextField txtDireccionProveedor;
+    private JTextField txtRazonProveedor;
+    private JTable TableProveedor;
+    private JButton btnGuardarProveedor;
+    private JButton btnEditarProveedor;
+    private JButton btnEliminarProveedor;
+    private JButton btnNuevoProveedor;
+    private JTextField txtCodigoProducto;
+    private JTextField txtDescripcionProducto;
+    private JTextField txtCantidadProducto;
+    private JTextField txtPrecioProducto;
+    private JTable TableProducto;
+    private JButton btnGuardarProducto;
+    private JButton btnEditarProducto;
+    private JButton btnEliminarProducto;
+    private JButton btnNuevoProducto;
+    private JComboBox cbxProveedorProducto;
+    private JButton btnExcelProducto;
+    private JTable TableVentasTodas;
+    private JButton btnPdfVentas;
+    private JTextField textField22;
+    private JTextField textField23;
+    private JTextField textField24;
+    private JTextField textField25;
+    private JTextField textField26;
+    private JButton ACTUALIZARButton;
+    private JLabel LabelTotal;
+    private JTextField txtTelefonoCV;
+    private JTextField txtDireccionCV;
+    private JTextField txtRazonCV;
+    private JTextField txtIdCliente;
+    private JTextField txtIdProveedor;
+    private JTextField txtIdProducto;
+    private JTextField txtIdVenta;
+    private JTextField txtIDpro;
     //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
     //EN EL SEGUNDO TAB. la tabla tiene columnas Cédula/RUC, Nombre, Teléfono, Dirección, Razón Social
     //EN EL TERCER TAB, la tabla tiene las columnas RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
-    //En EL CUARTO TAB, la tabla tiene las columnas CÓDIGO, DESCRIPCIÓN, STROCK, PRECIO, PROVEEDOR
+    //En EL CUARTO TAB, la tabla tiene las columnas CÓDIGO, DESCRIPCIÓN, STOCK, PRECIO, PROVEEDOR
+    //EN EL QUINTO TAB,  la tabla tiene las columnas ID, CLIENTE, VENDEDOR, TOTAL
 
-
-    //video 4  5:35
+    //Video6
 }
