@@ -3,7 +3,10 @@ package Vista;
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
 
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -81,6 +84,7 @@ public class Sistema extends JFrame{
     //EN EL QUINTO TAB,  la tabla tiene las columnas ID, CLIENTE, VENDEDOR, TOTAL
     Cliente cl = new Cliente();
     ClienteDAO cliente = new ClienteDAO();
+    DefaultTableModel modelo;
 
     public Sistema(){
         setContentPane(panel_Sistema);
@@ -107,12 +111,39 @@ public class Sistema extends JFrame{
                 }else{
                     JOptionPane.showMessageDialog(null,"Los campos están vacíos");
                 }
+                ListarClientes();
             }
         });
 
 
+        clientesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ListarClientes();
+                tabbedPane1.setSelectedIndex(1);
+            }
+        });
     }
 
+    public void ListarClientes(){
+        List<Cliente> ListarCl = cliente.ListarCliente();
+        String[] titulos = {"Cédula/RUC","Nombre","Teléfono","Dirección","Razón Social"};
+        //modelo = (DefaultTableModel) TableCliente.getModel();
+        modelo = new DefaultTableModel(null, titulos);
+
+        Object[] obj = new Object[6];
+        for(int i = 0; i < ListarCl.size(); i++){
+            obj[0] = ListarCl.get(i).getId();
+            obj[1] = ListarCl.get(i).getDni();
+            obj[2] = ListarCl.get(i).getNombre();
+            obj[3] = ListarCl.get(i).getTelefono();
+            obj[4] = ListarCl.get(i).getDireccion();
+            obj[5] = ListarCl.get(i).getRazon();
+
+            modelo.addRow(obj);
+        }
+        TableCliente.setModel(modelo);
+    }
 
     //Video7 conexion y login
 }
