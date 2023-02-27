@@ -2,7 +2,7 @@ package Vista;
 
 import javax.swing.*;
 
-public class Sistema {
+public class Sistema extends JFrame{
     private JPanel panel_Sistema;
     private JTabbedPane tabbedPane1;
     private JButton nuevaVentaButton;
@@ -75,5 +75,14 @@ public class Sistema {
     //En EL CUARTO TAB, la tabla tiene las columnas CÓDIGO, DESCRIPCIÓN, STOCK, PRECIO, PROVEEDOR
     //EN EL QUINTO TAB,  la tabla tiene las columnas ID, CLIENTE, VENDEDOR, TOTAL
 
-    //Video6
+    public Sistema(){
+        setContentPane(panel_Sistema);
+        setVisible(true);
+        setTitle("Sistema");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(800,500);
+    }
+
+
+    //Video7 conexion y login
 }
