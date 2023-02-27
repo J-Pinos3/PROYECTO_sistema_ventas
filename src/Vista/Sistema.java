@@ -1,6 +1,11 @@
 package Vista;
 
+import Modelo.Cliente;
+import Modelo.ClienteDAO;
+
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Sistema extends JFrame{
     private JPanel panel_Sistema;
@@ -74,6 +79,8 @@ public class Sistema extends JFrame{
     //EN EL TERCER TAB, la tabla tiene las columnas RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
     //En EL CUARTO TAB, la tabla tiene las columnas CÓDIGO, DESCRIPCIÓN, STOCK, PRECIO, PROVEEDOR
     //EN EL QUINTO TAB,  la tabla tiene las columnas ID, CLIENTE, VENDEDOR, TOTAL
+    Cliente cl = new Cliente();
+    ClienteDAO cliente = new ClienteDAO();
 
     public Sistema(){
         setContentPane(panel_Sistema);
@@ -81,6 +88,29 @@ public class Sistema extends JFrame{
         setTitle("Sistema");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800,500);
+
+
+        btnGuardarCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(  !"".equals(txtDniCliente.getText())  || !"".equals(txtNombreCliente.getText()) || !"".equals(txtTelefonoCliente.getText())
+                 || !"".equals(txtDireccionCliente.getText())  || !"".equals(txtRazonCliente.getText()) ){
+
+                    cl.setDni( Integer.parseInt(txtDniCliente.getText()) );
+                    cl.setNombre( txtNombreCliente.getText() );
+                    cl.setTelefono( Integer.parseInt(txtTelefonoCliente.getText()) );
+                    cl.setDireccion( txtRazonCliente.getText() );
+                    cl.setRazon( txtRazonCliente.getText() );
+
+                    cliente.RegistrarCliente(cl);
+
+                }else{
+                    JOptionPane.showMessageDialog(null,"Los campos están vacíos");
+                }
+            }
+        });
+
+
     }
 
 
