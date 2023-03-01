@@ -2,6 +2,8 @@ package Vista;
 
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
+import Modelo.Proveedor;
+import Modelo.ProveedorDAO;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -86,6 +88,8 @@ public class Sistema extends JFrame{
     //EN EL QUINTO TAB,  la tabla tiene las columnas ID, CLIENTE, VENDEDOR, TOTAL
     Cliente cl = new Cliente();
     ClienteDAO cliente = new ClienteDAO();
+    Proveedor pr = new Proveedor();
+    ProveedorDAO PrDao = new ProveedorDAO();
     DefaultTableModel modelo;
 
     public Sistema(){
@@ -194,6 +198,36 @@ public class Sistema extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 LimpiarCliente();
+            }
+        });
+
+        /********************************************************************************************************************/
+
+
+        btnGuardarProveedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if( !"".equals(txtRucProveedor.getText())  || !"".equals(txtNombreProveedor.getText()) || !"".equals(txtTelefonoProveedor.getText())
+                        || !"".equals(txtDireccionProveedor.getText()) || !"".equals(txtRazonProveedor.getText()) ){
+
+                    pr.setRuc(Integer.parseInt(txtRucProveedor.getText()));
+                    pr.setNombre(txtNombreProveedor.getText());
+                    pr.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
+                    pr.setDireccion(txtDireccionProveedor.getText());
+                    pr.setRazon(txtRazonProveedor.getText());
+
+                    PrDao.RegistrarProveedor(pr);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Los campos están vacíos");
+                }
+            }
+        });
+
+
+        proveedoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(2);
             }
         });
     }
