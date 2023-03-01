@@ -93,7 +93,8 @@ public class Sistema extends JFrame{
         setVisible(true);
         setTitle("Sistema");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800,500);
+        setLocationRelativeTo(null);
+        setSize(1300,700);
 
 
         btnGuardarCliente.addActionListener(new ActionListener() {
@@ -114,6 +115,7 @@ public class Sistema extends JFrame{
                     JOptionPane.showMessageDialog(null,"Los campos están vacíos");
                 }
                 ListarClientes();
+                LimpiarCliente();
             }
         });
 
@@ -152,12 +154,14 @@ public class Sistema extends JFrame{
                     if(pregunta == 0){
                         int id = Integer.parseInt(txtIdCliente.getText());
                         cliente.EliminarCliente(id);
-                        ListarClientes();
+
                     }
                     JOptionPane.showMessageDialog(null,"Cliente Eliminado");
                 }else{
                     JOptionPane.showMessageDialog(null,"Los Campos están vacíos");
                 }
+                ListarClientes();
+                LimpiarCliente();
             }
         });
 
@@ -184,5 +188,14 @@ public class Sistema extends JFrame{
         TableCliente.setModel(modelo);
     }
 
+
+    private void LimpiarCliente(){
+        txtIdCliente.setText("");
+        txtDniCliente.setText("");
+        txtNombreCliente.setText("");
+        txtTelefonoCliente.setText("");
+        txtDireccionCliente.setText("");
+        txtRazonCliente.setText("");
+    }
     //Video7 conexion y login
 }
