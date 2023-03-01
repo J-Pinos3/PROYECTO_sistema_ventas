@@ -95,7 +95,7 @@ public class Sistema extends JFrame{
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(1300,700);
-
+        txtIdCliente.setVisible(false);
 
         btnGuardarCliente.addActionListener(new ActionListener() {
             @Override
@@ -166,6 +166,36 @@ public class Sistema extends JFrame{
         });
 
 
+        btnEditarCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if("".equals(txtIdCliente.getText())){
+                    JOptionPane.showMessageDialog(null,"Seleccione una fila");
+                }else{
+                    if( !"".equals(txtDniCliente.getText()) || !"".equals(txtNombreCliente.getText()) || !"".equals(txtTelefonoCliente.getText())
+                     || !"".equals(txtDireccionCliente.getText()) || !"".equals(txtRazonCliente.getText()) || !"".equals(txtIdCliente.getText()) ){
+
+                        cl.setDni( Integer.parseInt(txtDniCliente.getText()) );
+                        cl.setNombre(txtNombreCliente.getText());
+                        cl.setTelefono(Integer.parseInt(txtTelefonoCliente.getText()));
+                        cl.setDireccion(txtDireccionCliente.getText());
+                        cl.setRazon(txtRazonCliente.getText());
+                        cl.setId(Integer.parseInt(txtIdCliente.getText()));
+                        cliente.ModificarCliente(cl);
+                        LimpiarCliente();
+                        ListarClientes();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+                    }
+                }
+            }
+        });
+        btnNuevoCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LimpiarCliente();
+            }
+        });
     }
 
     public void ListarClientes(){
