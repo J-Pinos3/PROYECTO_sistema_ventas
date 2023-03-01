@@ -75,7 +75,25 @@ public class ClienteDAO {
     }
 
 
-
+    public boolean EliminarCliente(int id){
+        String sql =" DELETE FROM clientes WHERE id = ?";
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1,id);
+            ps.execute();
+            return true;
+        }catch (HeadlessException | SQLException e){
+            System.out.println(e.toString());
+            return false;
+        }finally {
+            try {
+                con.close();
+            } catch (SQLException e1) {
+                System.out.println(e1.toString());
+            }
+        }
+    }
 
 
 

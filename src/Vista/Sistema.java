@@ -3,6 +3,8 @@ package Vista;
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -103,7 +105,7 @@ public class Sistema extends JFrame{
                     cl.setDni( Integer.parseInt(txtDniCliente.getText()) );
                     cl.setNombre( txtNombreCliente.getText() );
                     cl.setTelefono( Integer.parseInt(txtTelefonoCliente.getText()) );
-                    cl.setDireccion( txtRazonCliente.getText() );
+                    cl.setDireccion( txtDireccionCliente.getText() );
                     cl.setRazon( txtRazonCliente.getText() );
 
                     cliente.RegistrarCliente(cl);
@@ -123,11 +125,48 @@ public class Sistema extends JFrame{
                 tabbedPane1.setSelectedIndex(1);
             }
         });
+
+
+        TableCliente.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                int fila = TableCliente.rowAtPoint(e.getPoint());
+                txtIdCliente.setText( TableCliente.getValueAt(fila,0).toString() );
+                txtDniCliente.setText( TableCliente.getValueAt(fila,1).toString() );
+                txtNombreCliente.setText( TableCliente.getValueAt(fila,2).toString() );
+                txtTelefonoCliente.setText( TableCliente.getValueAt(fila,3).toString() );
+                txtDireccionCliente.setText( TableCliente.getValueAt(fila,4).toString() );
+                txtRazonCliente.setText( TableCliente.getValueAt(fila,5).toString() );
+            }
+        });
+
+
+        btnEliminarCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!"".equals(txtIdCliente.getText())){
+                    int  pregunta = JOptionPane.showConfirmDialog(null,
+                            "Está seguro de eliminar este cliente?");
+                    if(pregunta == 0){
+                        int id = Integer.parseInt(txtIdCliente.getText());
+                        cliente.EliminarCliente(id);
+                        ListarClientes();
+                    }
+                    JOptionPane.showMessageDialog(null,"Cliente Eliminado");
+                }else{
+                    JOptionPane.showMessageDialog(null,"Los Campos están vacíos");
+                }
+            }
+        });
+
+
     }
 
     public void ListarClientes(){
         List<Cliente> ListarCl = cliente.ListarCliente();
-        String[] titulos = {"Cédula/RUC","Nombre","Teléfono","Dirección","Razón Social"};
+        String[] titulos = {"ID","Cédula/RUC","Nombre","Teléfono","Dirección","Razón Social"};
         //modelo = (DefaultTableModel) TableCliente.getModel();
         modelo = new DefaultTableModel(null, titulos);
 
