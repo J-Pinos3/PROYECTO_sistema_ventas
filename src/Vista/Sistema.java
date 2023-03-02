@@ -83,7 +83,7 @@ public class Sistema extends JFrame{
     private JTextField txtIDpro;
     //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
     //EN EL SEGUNDO TAB. la tabla tiene columnas Cédula/RUC, Nombre, Teléfono, Dirección, Razón Social
-    //EN EL TERCER TAB, la tabla tiene las columnas RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
+    //EN EL TERCER TAB, la tabla tiene las columnas ID, RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
     //En EL CUARTO TAB, la tabla tiene las columnas CÓDIGO, DESCRIPCIÓN, STOCK, PRECIO, PROVEEDOR
     //EN EL QUINTO TAB,  la tabla tiene las columnas ID, CLIENTE, VENDEDOR, TOTAL
     Cliente cl = new Cliente();
@@ -227,6 +227,7 @@ public class Sistema extends JFrame{
         proveedoresButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ListarProveedores();
                 tabbedPane1.setSelectedIndex(2);
             }
         });
@@ -261,5 +262,26 @@ public class Sistema extends JFrame{
         txtDireccionCliente.setText("");
         txtRazonCliente.setText("");
     }
-    //Video7 conexion y login
+
+
+    public void ListarProveedores(){
+        List<Proveedor> ListarPr = PrDao.ListarProveedor();
+        String[] titulos = {"ID","RUC","Nombre","Teléfono","Dirección","Razón Social"};
+        //modelo = (DefaultTableModel) TableCliente.getModel();
+        modelo = new DefaultTableModel(null, titulos);
+
+        Object[] obj = new Object[6];
+        for(int i = 0; i < ListarPr.size(); i++){
+            obj[0] = ListarPr.get(i).getId();
+            obj[1] = ListarPr.get(i).getRuc();
+            obj[2] = ListarPr.get(i).getNombre();
+            obj[3] = ListarPr.get(i).getTelefono();
+            obj[4] = ListarPr.get(i).getDireccion();
+            obj[5] = ListarPr.get(i).getRazon();
+
+            modelo.addRow(obj);
+        }
+        TableProveedor.setModel(modelo);
+    }
+
 }
