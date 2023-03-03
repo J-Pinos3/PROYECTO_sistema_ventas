@@ -90,7 +90,7 @@ public class Sistema extends JFrame{
     ClienteDAO cliente = new ClienteDAO();
     Proveedor pr = new Proveedor();
     ProveedorDAO PrDao = new ProveedorDAO();
-    DefaultTableModel modelo;
+
 
     public Sistema(){
         setContentPane(panel_Sistema);
@@ -220,6 +220,8 @@ public class Sistema extends JFrame{
                 }else{
                     JOptionPane.showMessageDialog(null,"Los campos están vacíos");
                 }
+                ListarProveedores();
+                LimpiarProveedor();
             }
         });
 
@@ -231,13 +233,51 @@ public class Sistema extends JFrame{
                 tabbedPane1.setSelectedIndex(2);
             }
         });
+
+
+        TableProveedor.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                int fila = TableProveedor.rowAtPoint(e.getPoint());
+                txtIdProveedor.setText( TableProveedor.getValueAt(fila,0).toString() );
+                txtRucProveedor.setText( TableProveedor.getValueAt(fila,1).toString() );
+                txtNombreProveedor.setText( TableProveedor.getValueAt(fila,2).toString() );
+                txtTelefonoProveedor.setText( TableProveedor.getValueAt(fila,3).toString() );
+                txtDireccionProveedor.setText( TableProveedor.getValueAt(fila,4).toString() );
+                txtRazonProveedor.setText( TableProveedor.getValueAt(fila,5).toString() );
+
+            }
+        });
+
+
+        btnEliminarProveedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!"".equals(txtIdProveedor.getText())){
+                    int  pregunta = JOptionPane.showConfirmDialog(null,
+                            "Está seguro de eliminar este proveedor?");
+                    if(pregunta == 0){
+                        int id = Integer.parseInt(txtIdProveedor.getText());
+                        PrDao.EliminarProveedor(id);
+
+                    }
+                    JOptionPane.showMessageDialog(null,"Proveedor Eliminado");
+                }else{
+                    JOptionPane.showMessageDialog(null,"Los Campos están vacíos");
+                }
+                ListarProveedores();
+                LimpiarProveedor();
+            }
+        });
     }
 
     public void ListarClientes(){
         List<Cliente> ListarCl = cliente.ListarCliente();
         String[] titulos = {"ID","Cédula/RUC","Nombre","Teléfono","Dirección","Razón Social"};
         //modelo = (DefaultTableModel) TableCliente.getModel();
-        modelo = new DefaultTableModel(null, titulos);
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 
         Object[] obj = new Object[6];
         for(int i = 0; i < ListarCl.size(); i++){
@@ -268,7 +308,7 @@ public class Sistema extends JFrame{
         List<Proveedor> ListarPr = PrDao.ListarProveedor();
         String[] titulos = {"ID","RUC","Nombre","Teléfono","Dirección","Razón Social"};
         //modelo = (DefaultTableModel) TableCliente.getModel();
-        modelo = new DefaultTableModel(null, titulos);
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
 
         Object[] obj = new Object[6];
         for(int i = 0; i < ListarPr.size(); i++){
@@ -282,6 +322,16 @@ public class Sistema extends JFrame{
             modelo.addRow(obj);
         }
         TableProveedor.setModel(modelo);
+    }
+
+
+    private void LimpiarProveedor(){
+        txtIdProveedor.setText("");
+        txtRucProveedor.setText("");
+        txtNombreProveedor.setText("");
+        txtTelefonoProveedor.setText("");
+        txtDireccionProveedor.setText("");
+        txtRazonProveedor.setText("");
     }
 
 }
