@@ -271,6 +271,34 @@ public class Sistema extends JFrame{
                 LimpiarProveedor();
             }
         });
+
+
+        btnEditarProveedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if("".equals(txtIdProveedor.getText())){
+                    JOptionPane.showMessageDialog(null,"Seleccione una fila");
+                }else{
+                    if( !"".equals(txtRucProveedor.getText()) || !"".equals(txtNombreProveedor.getText()) || !"".equals(txtTelefonoProveedor.getText())
+                            || !"".equals(txtDireccionProveedor.getText()) || !"".equals(txtRazonProveedor.getText()) || !"".equals(txtIdProveedor.getText()) ){
+
+                        pr.setRuc( Integer.parseInt(txtRucProveedor.getText()) );
+                        pr.setNombre(txtNombreProveedor.getText());
+                        pr.setTelefono(Integer.parseInt(txtTelefonoProveedor.getText()));
+                        pr.setDireccion(txtDireccionProveedor.getText());
+                        pr.setRazon(txtRazonProveedor.getText());
+                        pr.setId(Integer.parseInt(txtIdProveedor.getText()));
+                        PrDao.ModificarProveedor(pr);
+                        LimpiarProveedor();
+                        ListarProveedores();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+                    }
+                }
+            }
+        });
+
+
     }
 
     public void ListarClientes(){

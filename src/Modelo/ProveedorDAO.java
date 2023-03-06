@@ -90,4 +90,34 @@ public class ProveedorDAO {
             }
         }
     }
+
+
+    public boolean ModificarProveedor(Proveedor pr){
+        String sql = "UPDATE proveedore SET  ruc = ?, nombre = ?, telefono = ?, direccion = ?, razon = ? WHERE id = ?";
+
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+
+            ps.setInt(1, pr.getRuc());
+            ps.setString(2, pr.getNombre());
+            ps.setInt(3, pr.getTelefono());
+            ps.setString(4, pr.getDireccion());
+            ps.setString(5, pr.getRazon());
+            ps.setInt(6, pr.getId());
+            ps.execute();
+            return true;
+
+        }catch (HeadlessException | SQLException e){
+            System.out.println(e.toString());
+            return false;
+        }finally {
+            try{
+                con.close();
+            }catch (SQLException e1){
+                System.out.println(e1.toString());
+            }
+        }
+
+    }
 }
