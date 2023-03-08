@@ -1,9 +1,6 @@
 package Vista;
 
-import Modelo.Cliente;
-import Modelo.ClienteDAO;
-import Modelo.Proveedor;
-import Modelo.ProveedorDAO;
+import Modelo.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -90,6 +87,8 @@ public class Sistema extends JFrame{
     ClienteDAO cliente = new ClienteDAO();
     Proveedor pr = new Proveedor();
     ProveedorDAO PrDao = new ProveedorDAO();
+    Productos prod = new Productos();
+    ProductosDAO Prod_dao = new ProductosDAO();
 
 
     public Sistema(){
@@ -194,6 +193,8 @@ public class Sistema extends JFrame{
                 }
             }
         });
+
+
         btnNuevoCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -299,7 +300,49 @@ public class Sistema extends JFrame{
         });
 
 
-    }
+        btnNuevoProveedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LimpiarProveedor();
+            }
+        });
+
+        //**********************************************************************************************************************************
+
+        Prod_dao.RellenarComboProveedores(cbxProveedorProducto);
+
+        productosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //FALTA AGREGAR EL MÉTODO DE LISTAR
+                tabbedPane1.setSelectedIndex(3);
+
+
+            }
+        });
+
+
+        btnGuardarProducto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!"".equals(txtCodigoProducto.getText()) || !"".equals(txtDescripcionProducto.getText()) || !"".equals(cbxProveedorProducto.getSelectedItem()) || !"".equals(txtCantidadProducto.getText()) || !"".equals(txtPrecioProducto.getText()) ) {
+
+                    prod.setCodigo(txtCodigoProducto.getText());
+                    prod.setNombre(txtDescripcionProducto.getText());
+                    prod.setProveedor((String)cbxProveedorProducto.getSelectedItem());
+                    prod.setStock( Integer.parseInt(txtCantidadProducto.getText()) );
+                    prod.setPrecio( Double.parseDouble(txtPrecioProducto.getText()) );
+
+                    Prod_dao.RegistrarProducto(prod);
+                }else{
+                    JOptionPane.showMessageDialog(null,"Los campos están vacíos");
+                }
+                LimpiarProductos();
+            }
+        });
+
+
+    }//FIN DE LA CLASE SISTEMA
 
     public void ListarClientes(){
         List<Cliente> ListarCl = cliente.ListarCliente();
@@ -362,4 +405,12 @@ public class Sistema extends JFrame{
         txtRazonProveedor.setText("");
     }
 
+
+    private void LimpiarProductos(){
+        txtIdProducto.setText("");
+        txtCodigoProducto.setText("");
+        txtDescripcionProducto.setText("");
+        txtCantidadProducto.setText("");
+        txtPrecioProducto.setText("");
+    }
 }
