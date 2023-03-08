@@ -1,6 +1,8 @@
 package Vista;
 
 import Modelo.*;
+import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -310,13 +312,14 @@ public class Sistema extends JFrame{
         //**********************************************************************************************************************************
 
         Prod_dao.RellenarComboProveedores(cbxProveedorProducto);
+        AutoCompleteDecorator.decorate(cbxProveedorProducto);
 
         productosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //FALTA AGREGAR EL MÉTODO DE LISTAR
                 tabbedPane1.setSelectedIndex(3);
-
+                ListarProductos();
 
             }
         });
@@ -338,11 +341,26 @@ public class Sistema extends JFrame{
                     JOptionPane.showMessageDialog(null,"Los campos están vacíos");
                 }
                 LimpiarProductos();
+                ListarProductos();
             }
         });
 
 
-    }//FIN DE LA CLASE SISTEMA
+        TableProducto.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int fila = TableProducto.rowAtPoint(e.getPoint());
+                txtIdProducto.setText( TableProducto.getValueAt(fila,0).toString() );
+                txtCodigoProducto.setText( TableProducto.getValueAt(fila,1).toString() );
+                txtDescripcionProducto.setText( TableProducto.getValueAt(fila,2).toString() );
+                cbxProveedorProducto.setSelectedItem(TableProducto.getValueAt(fila,3).toString());
+                txtCantidadProducto.setText( TableProducto.getValueAt(fila,4).toString() );
+                txtPrecioProducto.setText( TableProducto.getValueAt(fila,5).toString() );
+            }
+        });
+
+    }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
         List<Cliente> ListarCl = cliente.ListarCliente();
@@ -405,6 +423,27 @@ public class Sistema extends JFrame{
         txtRazonProveedor.setText("");
     }
 
+
+
+    public void ListarProductos(){
+        List<Productos> ListarProds = Prod_dao.ListarProductos();
+        String[] titulos = {"ID","CÓDIGO","DESCRIPCIÓN","PROVEEDOR","STOCK","PRECIO"};
+        //modelo = (DefaultTableModel) TableCliente.getModel();
+        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+
+        Object[] obj = new Object[6];
+        for(int i = 0; i < ListarProds.size(); i++){
+            obj[0] = ListarProds.get(i).getId();
+            obj[1] = ListarProds.get(i).getCodigo();
+            obj[2] = ListarProds.get(i).getNombre();
+            obj[3] = ListarProds.get(i).getProveedor();
+            obj[4] = ListarProds.get(i).getStock();
+            obj[5] = ListarProds.get(i).getPrecio();
+
+            modelo.addRow(obj);
+        }
+        TableProducto.setModel(modelo);
+    }
 
     private void LimpiarProductos(){
         txtIdProducto.setText("");

@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductosDAO {
 
@@ -72,7 +74,33 @@ public class ProductosDAO {
     }
 
 
+    public List ListarProductos(){
 
+        List<Productos> Listaprods = new ArrayList();
+        String sql = "SELECT * FROM productos";
+
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while( rs.next() ){
+                Productos prods = new Productos();
+                prods.setId(rs.getInt("id"));
+                prods.setCodigo(rs.getString("codigo"));
+                prods.setNombre(rs.getString("nombre"));
+                prods.setProveedor(rs.getString("proveedor"));
+                prods.setStock(rs.getInt("stock"));
+                prods.setPrecio(rs.getDouble("precio"));
+                Listaprods.add(prods);
+
+            }
+
+        }catch (HeadlessException | SQLException e){
+            System.out.println("Error: " + e.toString());
+        }
+        return Listaprods;
+    }
 
 
 }
