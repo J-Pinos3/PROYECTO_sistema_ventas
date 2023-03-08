@@ -360,6 +360,28 @@ public class Sistema extends JFrame{
             }
         });
 
+
+        btnEliminarProducto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!"".equals(txtIdProducto.getText())){
+                    int  pregunta = JOptionPane.showConfirmDialog(null,
+                            "Está seguro de eliminar este producto?");
+                    if(pregunta == 0){
+                        int id = Integer.parseInt(txtIdProducto.getText());
+                        Prod_dao.EliminarProducto(id);
+
+                    }
+                    JOptionPane.showMessageDialog(null,"Producto Eliminado");
+                }else{
+                    JOptionPane.showMessageDialog(null,"Los Campos están vacíos");
+                }
+                ListarProductos();
+                LimpiarProductos();
+            }
+        });
+
+
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
