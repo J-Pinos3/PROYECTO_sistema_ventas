@@ -382,6 +382,39 @@ public class Sistema extends JFrame{
         });
 
 
+        btnEditarProducto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if("".equals(txtIdProducto.getText())){
+                    JOptionPane.showMessageDialog(null,"Seleccione una fila");
+                }else{
+                    if( !"".equals(txtCodigoProducto.getText()) || !"".equals(txtDescripcionProducto.getText()) || !"".equals(cbxProveedorProducto.getSelectedItem())
+                            || !"".equals(txtCantidadProducto.getText()) || !"".equals(txtPrecioProducto.getText()) || !"".equals(txtIdProducto.getText()) ){
+
+                        prod.setCodigo( txtCodigoProducto.getText() );
+                        prod.setNombre(txtDescripcionProducto.getText());
+                        prod.setProveedor( (String)cbxProveedorProducto.getSelectedItem() );
+                        prod.setStock( Integer.parseInt(txtCantidadProducto.getText()) );
+                        prod.setPrecio( Double.parseDouble(txtPrecioProducto.getText()) );
+                        prod.setId(Integer.parseInt(txtIdProducto.getText()));
+                        Prod_dao.ModificarProducto(prod);
+
+                        LimpiarProductos();
+                        ListarProductos();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+                    }
+                }
+            }
+        });
+
+
+        btnNuevoProducto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LimpiarProductos();
+            }
+        });
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
@@ -446,12 +479,11 @@ public class Sistema extends JFrame{
     }
 
 
-
     public void ListarProductos(){
         List<Productos> ListarProds = Prod_dao.ListarProductos();
         String[] titulos = {"ID","CÓDIGO","DESCRIPCIÓN","PROVEEDOR","STOCK","PRECIO"};
         //modelo = (DefaultTableModel) TableCliente.getModel();
-        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+        DefaultTableModel modelo = new DefaultTableModel(titulos,0);
 
         Object[] obj = new Object[6];
         for(int i = 0; i < ListarProds.size(); i++){
@@ -466,6 +498,7 @@ public class Sistema extends JFrame{
         }
         TableProducto.setModel(modelo);
     }
+
 
     private void LimpiarProductos(){
         txtIdProducto.setText("");
