@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.*;
+import Reportes.Excel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -415,6 +416,15 @@ public class Sistema extends JFrame{
                 LimpiarProductos();
             }
         });
+
+
+        btnExcelProducto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Excel.reporte();
+            }
+        });
+
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
