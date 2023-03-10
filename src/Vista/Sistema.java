@@ -423,7 +423,7 @@ public class Sistema extends JFrame{
         });
 
         //***********************************************************************************************************
-        /*
+
         txtCodigoVenta.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -444,43 +444,15 @@ public class Sistema extends JFrame{
                             txtPrecioVenta.setText("");
                             txtCodigoVenta.requestFocus();
                         }
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
-                    txtCodigoVenta.requestFocus();
-                }
-            }
-        });
-        */
-
-        txtCodigoVenta.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                if( !"".equals(txtCodigoVenta.getText()) ){
-
-                    String cod = txtCodigoVenta.getText();
-                    prod = Prod_dao.BuscarPro(cod);
-                    if(prod.getNombre() != null){
-                        txtDescripcionVenta.setText(""+prod.getNombre());
-                        txtStockDisponible.setText(""+prod.getStock());
-                        txtPrecioVenta.setText(""+prod.getPrecio());
-                        txtCantidadVenta.requestFocus();
                     }else{
-                        txtDescripcionVenta.setText("");
-                        txtStockDisponible.setText("");
-                        txtPrecioVenta.setText("");
+                        JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
                         txtCodigoVenta.requestFocus();
                     }
-                }else{
-                    JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
-                    txtCodigoVenta.requestFocus();
                 }
+
+
             }
         });
-
-
-
 
 
 
