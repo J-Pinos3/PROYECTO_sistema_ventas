@@ -89,6 +89,7 @@ public class Sistema extends JFrame{
     ProveedorDAO PrDao = new ProveedorDAO();
     Productos prod = new Productos();
     ProductosDAO Prod_dao = new ProductosDAO();
+    int item = 0;
 
 
     public Sistema(){
@@ -450,11 +451,55 @@ public class Sistema extends JFrame{
                     }
                 }
 
-
             }
         });
 
 
+        txtCantidadVenta.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    if(!"".equals(txtCantidadVenta.getText())){
+                        String cod = txtCodigoVenta.getText();
+                        String descripcion = txtDescripcionVenta.getText();
+                        int cantidad =  Integer.parseInt(txtCantidadVenta.getText());
+                        double precio = Double.parseDouble(txtPrecioVenta.getText());
+                        double total = cantidad * precio;
+                        int stock = Integer.parseInt(txtStockDisponible.getText());
+
+
+                        if(stock >= cantidad){
+                            item = item + 1;
+                //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
+                            String[] titulos = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
+                            DefaultTableModel modelo = new DefaultTableModel(titulos,0);
+                            ArrayList lista = new ArrayList();
+                            lista.add(item);
+                            lista.add(cod);
+                            lista.add(descripcion);
+                            lista.add(cantidad);
+                            lista.add(precio);
+                            lista.add(total);
+
+                            Object[] Ob = new Object[5];
+                            Ob[0] = lista.get(1);
+                            Ob[1] = lista.get(2);
+                            Ob[2] = lista.get(3);
+                            Ob[3] = lista.get(4);
+                            Ob[4] = lista.get(5);
+                            modelo.addRow(Ob);
+                            TableVenta.setModel(modelo);
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Stock No Disponible");
+                        }
+
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Ingrese una cantidad válida");
+                    }
+                }
+            }
+        });
 
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
