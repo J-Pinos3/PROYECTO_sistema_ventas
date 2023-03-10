@@ -5,14 +5,11 @@ import Reportes.Excel;
 import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Sistema extends JFrame{
     private JPanel panel_Sistema;
@@ -425,6 +422,68 @@ public class Sistema extends JFrame{
             }
         });
 
+        //***********************************************************************************************************
+        /*
+        txtCodigoVenta.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    if( !"".equals(txtCodigoVenta.getText()) ){
+
+                        String cod = txtCodigoVenta.getText();
+                        prod = Prod_dao.BuscarPro(cod);
+                        if(prod.getNombre() != null){
+                            txtDescripcionVenta.setText(""+prod.getNombre());
+                            txtStockDisponible.setText(""+prod.getStock());
+                            txtPrecioVenta.setText(""+prod.getPrecio());
+                            txtCantidadVenta.requestFocus();
+                        }else{
+                            txtDescripcionVenta.setText("");
+                            txtStockDisponible.setText("");
+                            txtPrecioVenta.setText("");
+                            txtCodigoVenta.requestFocus();
+                        }
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
+                    txtCodigoVenta.requestFocus();
+                }
+            }
+        });
+        */
+
+        txtCodigoVenta.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if( !"".equals(txtCodigoVenta.getText()) ){
+
+                    String cod = txtCodigoVenta.getText();
+                    prod = Prod_dao.BuscarPro(cod);
+                    if(prod.getNombre() != null){
+                        txtDescripcionVenta.setText(""+prod.getNombre());
+                        txtStockDisponible.setText(""+prod.getStock());
+                        txtPrecioVenta.setText(""+prod.getPrecio());
+                        txtCantidadVenta.requestFocus();
+                    }else{
+                        txtDescripcionVenta.setText("");
+                        txtStockDisponible.setText("");
+                        txtPrecioVenta.setText("");
+                        txtCodigoVenta.requestFocus();
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
+                    txtCodigoVenta.requestFocus();
+                }
+            }
+        });
+
+
+
+
+
+
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
@@ -517,4 +576,6 @@ public class Sistema extends JFrame{
         txtCantidadProducto.setText("");
         txtPrecioProducto.setText("");
     }
-}
+
+
+}  //FIN DE LA CLASE SISTEMA
