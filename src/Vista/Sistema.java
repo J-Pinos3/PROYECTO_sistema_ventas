@@ -90,6 +90,10 @@ public class Sistema extends JFrame{
     Productos prod = new Productos();
     ProductosDAO Prod_dao = new ProductosDAO();
     int item = 0;
+    double total_a_pagar = 0.0;
+    //tabla venta
+    String[] titulosVenta = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
+    DefaultTableModel modeloVenta = new DefaultTableModel(titulosVenta,0);
 
 
     public Sistema(){
@@ -445,6 +449,7 @@ public class Sistema extends JFrame{
                             txtPrecioVenta.setText("");
                             txtCodigoVenta.requestFocus();
                         }
+
                     }else{
                         JOptionPane.showMessageDialog(null, "Ingrese el código del producto");
                         txtCodigoVenta.requestFocus();
@@ -472,8 +477,14 @@ public class Sistema extends JFrame{
                         if(stock >= cantidad){
                             item = item + 1;
                 //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
-                            String[] titulos = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
-                            DefaultTableModel modelo = new DefaultTableModel(titulos,0);
+                            //String[] titulos = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
+                            //DefaultTableModel modeloVenta = new DefaultTableModel(titulos,0);
+                            for(int i = 0; i < TableVenta.getRowCount(); i++){
+                                if(TableVenta.getValueAt(i,1).equals(txtDescripcionVenta.getText()) ){
+                                    JOptionPane.showMessageDialog(null, "El producto ya está registrado");
+                                    return ;
+                                }
+                            }
                             ArrayList lista = new ArrayList();
                             lista.add(item);
                             lista.add(cod);
@@ -488,8 +499,11 @@ public class Sistema extends JFrame{
                             Ob[2] = lista.get(3);
                             Ob[3] = lista.get(4);
                             Ob[4] = lista.get(5);
-                            modelo.addRow(Ob);
-                            TableVenta.setModel(modelo);
+                            modeloVenta.addRow(Ob);
+                            TableVenta.setModel(modeloVenta);
+                            TotalPagar();
+                            LimpiarVentas();
+                            txtCodigoVenta.requestFocus();
                         }else{
                             JOptionPane.showMessageDialog(null,"Stock No Disponible");
                         }
@@ -592,6 +606,31 @@ public class Sistema extends JFrame{
         txtDescripcionProducto.setText("");
         txtCantidadProducto.setText("");
         txtPrecioProducto.setText("");
+    }
+
+
+    private void TotalPagar(){
+        total_a_pagar = 0.0;
+        int fila =  TableVenta.getRowCount();
+        double calcular = 0;
+        for(int i = 0; i < fila; i++){
+            calcular = Double.parseDouble( String.valueOf(TableVenta.getModel().getValueAt(i,4)) ) ;
+            total_a_pagar += calcular;
+        }
+
+        //LabelTotal.setText( String.valueOf(total_a_pagar) );
+        LabelTotal.setText( String.format("%.2f", total_a_pagar) );
+    }
+
+
+    private void LimpiarVentas(){
+
+        txtCodigoVenta.setText("");
+        txtDescripcionVenta.setText("");
+        txtCantidadVenta.setText("");
+        txtPrecioVenta.setText("");
+        txtStockDisponible.setText("");
+
     }
 
 
