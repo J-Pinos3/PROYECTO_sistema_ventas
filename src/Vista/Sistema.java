@@ -515,6 +515,46 @@ public class Sistema extends JFrame{
             }
         });
 
+
+        btnEliminarVenta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                modeloVenta = (DefaultTableModel) TableVenta.getModel();
+                modeloVenta.removeRow(TableVenta.getSelectedRow());
+                TotalPagar();
+                txtCodigoVenta.requestFocus();
+            }
+        });
+
+
+        txtRucVenta.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                    if( !"".equals(txtRucVenta.getText()) ){
+
+                        int dni = Integer.parseInt(txtRucVenta.getText());
+                        cl = cliente.BuscarCliente( dni );
+
+                        if(cl.getNombre() != null){
+                            txtNombreClienteVenta.setText(""+cl.getNombre());
+                            txtTelefonoCV.setText(""+cl.getTelefono());
+                            txtDireccionCV.setText(""+cl.getDireccion());
+                            txtRazonCV.setText(""+cl.getRazon());
+                        }else{
+                            txtRucVenta.setText("");
+                            JOptionPane.showMessageDialog(null,"El cliente no existe");
+                        }
+
+                    }
+                }
+
+            }
+        });
+
+
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
