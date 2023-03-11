@@ -117,6 +117,16 @@
               <text value=""/>
             </properties>
           </component>
+          <component id="6d5ac" class="javax.swing.JLabel" binding="LabelVendedor">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2166042"/>
+              <font size="20"/>
+              <text value="Juan Tizón"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <hspacer id="c98">

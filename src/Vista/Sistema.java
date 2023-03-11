@@ -78,6 +78,7 @@ public class Sistema extends JFrame{
     private JTextField txtIdProducto;
     private JTextField txtIdVenta;
     private JTextField txtIDpro;
+    private JLabel LabelVendedor;
     //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
     //EN EL SEGUNDO TAB. la tabla tiene columnas Cédula/RUC, Nombre, Teléfono, Dirección, Razón Social
     //EN EL TERCER TAB, la tabla tiene las columnas ID, RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
@@ -89,6 +90,8 @@ public class Sistema extends JFrame{
     ProveedorDAO PrDao = new ProveedorDAO();
     Productos prod = new Productos();
     ProductosDAO Prod_dao = new ProductosDAO();
+    Venta ven = new Venta();
+    VentaDAO venta_dao = new VentaDAO();
     int item = 0;
     double total_a_pagar = 0.0;
     //tabla venta
@@ -555,6 +558,12 @@ public class Sistema extends JFrame{
         });
 
 
+        btnGenerarVenta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                RegistrarVenta();
+            }
+        });
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
@@ -673,5 +682,17 @@ public class Sistema extends JFrame{
 
     }
 
+
+    private void RegistrarVenta(){
+
+        String cliente = txtNombreClienteVenta.getText();
+        String vendedor = LabelVendedor.getText();
+        double monto = total_a_pagar;
+        ven.setCliente(cliente);
+        ven.setVendedor(vendedor);
+        ven.setTotal(monto);
+
+        venta_dao.RegistrarVenta(ven);
+    }
 
 }  //FIN DE LA CLASE SISTEMA
