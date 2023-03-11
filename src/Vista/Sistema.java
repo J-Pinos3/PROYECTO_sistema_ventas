@@ -92,6 +92,8 @@ public class Sistema extends JFrame{
     ProductosDAO Prod_dao = new ProductosDAO();
     Venta ven = new Venta();
     VentaDAO venta_dao = new VentaDAO();
+    Detalle Dven = new Detalle();
+
     int item = 0;
     double total_a_pagar = 0.0;
     //tabla venta
@@ -562,6 +564,7 @@ public class Sistema extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 RegistrarVenta();
+                RegistrarDetalle();
             }
         });
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
@@ -693,6 +696,23 @@ public class Sistema extends JFrame{
         ven.setTotal(monto);
 
         venta_dao.RegistrarVenta(ven);
+    }
+
+    private void RegistrarDetalle(){
+        //String[] titulosVenta = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
+        for (int i = 0; i < TableVenta.getRowCount(); i++) {
+            String cod = TableVenta.getValueAt(i,0).toString();
+            int cant = Integer.parseInt( TableVenta.getValueAt(i, 2).toString() );
+            double precio = Double.parseDouble( TableVenta.getValueAt(i,3).toString() );
+            int id = 1;
+            Dven.setCod_pro(cod);
+            Dven.setCantidad(cant);
+            Dven.setPrecio(precio);
+            Dven.setId(id);
+            venta_dao.RegistrarDetalle(Dven);
+
+        }
+
     }
 
 }  //FIN DE LA CLASE SISTEMA

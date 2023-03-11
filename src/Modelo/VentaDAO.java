@@ -45,7 +45,38 @@ public class VentaDAO {
     }
 
 
+    public int RegistrarDetalle(Detalle Dv){
 
+        String sql = "INSERT INTO detalle(cod_pro, cantidad, precio, id_venta) VALUES(?,?,?,?)";
+
+        try {
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+
+            ps.setString(1, Dv.getCod_pro());
+            ps.setInt(2, Dv.getCantidad());
+            ps.setDouble(3, Dv.getPrecio());
+            ps.setInt(4,Dv.getId_venta());
+
+            int res = ps.executeUpdate();
+            if(res > 0){
+                JOptionPane.showMessageDialog(null, "Detalle de Factura Registrado Exitosamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al Registrar el Detalle de la Factura");
+            }
+
+        }catch (HeadlessException | SQLException e){
+            System.out.println(e.toString());
+        }finally {
+            try{
+                con.close();
+            }catch (SQLException e1){
+                System.out.println("Error: " + e1.toString());
+            }
+        }
+
+        return r;
+    }
 
 
 
