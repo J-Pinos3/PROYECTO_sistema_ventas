@@ -99,7 +99,30 @@ public class VentaDAO {
     }
 
 
+    public boolean ActualizarStock(int cantidad, String codigo){
+        String sql = "UPDATE productos SET stock = ? WHERE codigo = ?";
 
+        try{
+
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, cantidad);
+            ps.setString(2, codigo);
+            ps.execute();
+
+            return true;
+        }catch (SQLException e){
+            System.out.println("actualizar stock ventadao: "+e.toString());
+            return false;
+        }finally {
+            try{
+                con.close();
+            }catch (SQLException e1){
+                System.out.println("Error: " + e1.toString());
+            }
+        }
+
+    }
 
 
 

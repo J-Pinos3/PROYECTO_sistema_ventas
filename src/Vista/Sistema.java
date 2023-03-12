@@ -564,8 +564,22 @@ public class Sistema extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 RegistrarVenta();
                 RegistrarDetalle();
+                Actualizar_stock();
+                LimpiarTableventa();
+                //despues de cada venta se deben limpiar los campos de cliente
             }
         });
+
+
+        nuevaVentaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(0);
+            }
+        });
+
+
+
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
@@ -715,6 +729,31 @@ public class Sistema extends JFrame{
             Dven.setId_venta(id);
             venta_dao.RegistrarDetalle(Dven);
 
+        }
+
+    }
+
+
+    private void Actualizar_stock(){
+        for(int i = 0; i < TableVenta.getRowCount(); i++){
+            String cod = TableVenta.getValueAt(i,0).toString();
+            int canti =   Integer.parseInt( TableVenta.getValueAt(i, 2).toString() );
+
+            prod = Prod_dao.BuscarPro(cod);
+
+            int stockActual = prod.getStock() - canti;
+
+            venta_dao.ActualizarStock(stockActual, cod);
+        }
+
+    }
+
+
+    private void LimpiarTableventa(){
+        modeloVenta= (DefaultTableModel) TableVenta.getModel();
+        int filas = TableVenta.getRowCount();
+        for(int i = 0; i < filas; i++){
+            modeloVenta.removeRow(0);
         }
 
     }
