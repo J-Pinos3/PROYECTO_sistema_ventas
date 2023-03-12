@@ -1,7 +1,5 @@
 package Modelo;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
@@ -13,6 +11,27 @@ public class VentaDAO {
     PreparedStatement ps;
     ResultSet rs;
     int r = 0;
+
+    public int IdVenta(){
+
+        String sql = "SELECT MAX(id) FROM ventas";
+        int id = 0;
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            if( rs.next() ){
+                id = rs.getInt(1);
+            }
+
+        }catch (HeadlessException | SQLException e){
+            System.out.println("id ventadao: "+e.toString());
+        }
+
+        return id;
+    }
+
 
     public int RegistrarVenta(Venta v){
         String sql = "INSERT INTO ventas(cliente, Vendedor, total) VALUES(?,?,?)";
@@ -45,7 +64,7 @@ public class VentaDAO {
     }
 
 
-    public int RegistrarDetalle(Detalle Dv){
+    public void RegistrarDetalle(Detalle Dv){
 
         String sql = "INSERT INTO detalle(cod_pro, cantidad, precio, id_venta) VALUES(?,?,?,?)";
 
@@ -58,6 +77,7 @@ public class VentaDAO {
             ps.setDouble(3, Dv.getPrecio());
             ps.setInt(4,Dv.getId_venta());
 
+            System.out.println("Id_venta (venta dao): " + Dv.getId_venta());
             int res = ps.executeUpdate();
             if(res > 0){
                 JOptionPane.showMessageDialog(null, "Detalle de Factura Registrado Exitosamente");
@@ -75,7 +95,7 @@ public class VentaDAO {
             }
         }
 
-        return r;
+        //return r;
     }
 
 

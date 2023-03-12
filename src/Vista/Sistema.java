@@ -2,7 +2,6 @@ package Vista;
 
 import Modelo.*;
 import Reportes.Excel;
-import org.jdesktop.swingx.autocomplete.AutoCompleteComboBoxEditor;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import java.awt.event.*;
@@ -698,17 +697,22 @@ public class Sistema extends JFrame{
         venta_dao.RegistrarVenta(ven);
     }
 
+
     private void RegistrarDetalle(){
         //String[] titulosVenta = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
+        int id = venta_dao.IdVenta();
+        //int id = 1;
+        System.out.println("id venta (sistema registrar detalle)" + id);
+
         for (int i = 0; i < TableVenta.getRowCount(); i++) {
             String cod = TableVenta.getValueAt(i,0).toString();
             int cant = Integer.parseInt( TableVenta.getValueAt(i, 2).toString() );
             double precio = Double.parseDouble( TableVenta.getValueAt(i,3).toString() );
-            int id = 1;
+
             Dven.setCod_pro(cod);
             Dven.setCantidad(cant);
             Dven.setPrecio(precio);
-            Dven.setId(id);
+            Dven.setId_venta(id);
             venta_dao.RegistrarDetalle(Dven);
 
         }
