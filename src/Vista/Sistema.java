@@ -2,9 +2,21 @@ package Vista;
 
 import Modelo.*;
 import Reportes.Excel;
+import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
+import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -108,6 +120,8 @@ public class Sistema extends JFrame{
         setLocationRelativeTo(null);
         setSize(1300,700);
         txtIdCliente.setVisible(false);
+
+        pdf();
 
         btnGuardarCliente.addActionListener(new ActionListener() {
             @Override
@@ -756,6 +770,57 @@ public class Sistema extends JFrame{
             modeloVenta.removeRow(0);
         }
 
+    }
+
+
+    /*MÉTODO LIMPIAR CLIENTE-VENTA*/
+
+    private void pdf(){
+        try{
+            FileOutputStream archivo;
+            File file = new File("src/pdf/venta.pdf");
+            archivo = new FileOutputStream(file);
+
+            Document doc = new Document();
+            PdfWriter.getInstance(doc, archivo);
+
+            doc.open();
+
+            Image img = Image.getInstance("src/Img/logo_pdf.png");
+
+            Paragraph fecha = new Paragraph();
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN,12,Font.BOLD, BaseColor.BLUE);
+            fecha.add(Chunk.NEWLINE);
+            Date date = new Date();
+            fecha.add( "Factura: 1"+"\nfecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n" );
+
+            PdfPTable Encabezado = new PdfPTable(4);
+            Encabezado.setWidthPercentage(100);
+            Encabezado.getDefaultCell().setBorder(0);
+            float[] ColumnaEncabezado = new float[]{20f, 30f, 70f, 40f};
+
+            Encabezado.setWidths(ColumnaEncabezado);
+            Encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+            Encabezado.addCell(img);
+            String ruc = "123456789";
+            String nom = "Super Compu Mundo Hiper-Mega RED";
+            String telf = "0962151117";
+            String direc = "Quito-Ecuador";
+            String razon = "Super Compu Mundo Hiper-Mega RED";
+
+            Encabezado.addCell("");
+            Encabezado.addCell("Ruc: " + ruc + "\nNombre: " + nom + "\nTeléfono: " + telf +
+                                    "\nDirección: " + direc + "\nRazón Social: " + razon );
+
+            Encabezado.addCell(fecha);
+
+            doc.add(Encabezado);
+            doc.close();
+            archivo.close();
+        }catch (IOException | SecurityException | DocumentException e){
+
+        }
     }
 
 }  //FIN DE LA CLASE SISTEMA
