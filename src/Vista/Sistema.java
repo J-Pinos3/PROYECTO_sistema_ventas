@@ -5,6 +5,7 @@ import Reportes.Excel;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
@@ -121,7 +122,7 @@ public class Sistema extends JFrame{
         setSize(1300,700);
         txtIdCliente.setVisible(false);
 
-        pdf();
+
 
         btnGuardarCliente.addActionListener(new ActionListener() {
             @Override
@@ -579,7 +580,10 @@ public class Sistema extends JFrame{
                 RegistrarVenta();
                 RegistrarDetalle();
                 Actualizar_stock();
+                pdf();
                 LimpiarTableventa();
+
+
                 //despues de cada venta se deben limpiar los campos de cliente
             }
         });
@@ -816,6 +820,85 @@ public class Sistema extends JFrame{
             Encabezado.addCell(fecha);
 
             doc.add(Encabezado);
+
+            Paragraph cli_paragraph = new Paragraph();
+            cli_paragraph.add(Chunk.NEWLINE);
+            cli_paragraph.add(Chunk.NEWLINE);
+            cli_paragraph.add("Datos de los clientes" +"\n\n" );
+            doc.add(cli_paragraph);
+
+
+            PdfPTable table_cli_parag = new PdfPTable(4);
+            table_cli_parag.setWidthPercentage(100);
+            table_cli_parag.getDefaultCell().setBorder(0);
+            float[] Columna_tableCli = new float[]{20f, 50f, 30f, 40f};
+            table_cli_parag.setWidths(Columna_tableCli);
+            table_cli_parag.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+            PdfPCell cli1 = new PdfPCell( new Phrase("C.I./RUC") );
+            PdfPCell cli2 = new PdfPCell( new Phrase("Nombre") );
+            PdfPCell cli3 = new PdfPCell( new Phrase("Teléfono") );
+            PdfPCell cli4 = new PdfPCell( new Phrase("Dirección") );
+
+            cli1.setBorder(0);
+            cli2.setBorder(0);
+            cli3.setBorder(0);
+            cli4.setBorder(0);
+
+            table_cli_parag.addCell(cli1);
+            table_cli_parag.addCell(cli2);
+            table_cli_parag.addCell(cli3);
+            table_cli_parag.addCell(cli4);
+
+            table_cli_parag.addCell(txtRucVenta.getText());
+            table_cli_parag.addCell(txtNombreClienteVenta.getText());
+            table_cli_parag.addCell(txtTelefonoCV.getText());
+            table_cli_parag.addCell(txtDireccionCV.getText());
+
+            doc.add(table_cli_parag);
+
+
+
+            //PRODUCTOS
+
+            PdfPTable table_prod_parag = new PdfPTable(4);
+            table_prod_parag.setWidthPercentage(100);
+            table_prod_parag.getDefaultCell().setBorder(0);
+            float[] Columna_tableProd = new float[]{20f, 50f, 30f, 40f};
+            table_prod_parag.setWidths(Columna_tableProd);
+            table_prod_parag.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+            PdfPCell pro1 = new PdfPCell( new Phrase("Cantidad") );
+            PdfPCell pro2 = new PdfPCell( new Phrase("Descripción") );
+            PdfPCell pro3 = new PdfPCell( new Phrase("Precio Unitario") );
+            PdfPCell pro4 = new PdfPCell( new Phrase("Total") );
+
+            pro1.setBorder(0);
+            pro2.setBorder(0);
+            pro3.setBorder(0);
+            pro4.setBorder(0);
+
+            table_prod_parag.addCell(pro1);
+            table_prod_parag.addCell(pro2);
+            table_prod_parag.addCell(pro3);
+            table_prod_parag.addCell(pro4);
+
+            for(int i = 0; i < TableVenta.getRowCount(); i++){
+    //String[] titulosVenta = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
+                String cantidad = TableVenta.getValueAt(i,2).toString();
+                String producto = TableVenta.getValueAt(i,1).toString();
+                String precUnit = TableVenta.getValueAt(i,3).toString();
+                String precTotal = TableVenta.getValueAt(i,4).toString();
+
+                table_prod_parag.addCell(cantidad);
+                table_prod_parag.addCell(producto);
+                table_prod_parag.addCell(precUnit);
+                table_prod_parag.addCell(precTotal);
+            }
+
+            doc.add(table_prod_parag);
+
+
             doc.close();
             archivo.close();
         }catch (IOException | SecurityException | DocumentException e){
