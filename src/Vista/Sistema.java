@@ -793,7 +793,7 @@ public class Sistema extends JFrame{
             Image img = Image.getInstance("src/Img/logo_pdf.png");
 
             Paragraph fecha = new Paragraph();
-            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN,12,Font.BOLD, BaseColor.BLUE);
+            Font negrita = new Font(Font.FontFamily.TIMES_ROMAN,13,Font.BOLD, BaseColor.BLUE);
             fecha.add(Chunk.NEWLINE);
             Date date = new Date();
             fecha.add( "Factura: 1"+"\nfecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n" );
@@ -835,10 +835,10 @@ public class Sistema extends JFrame{
             table_cli_parag.setWidths(Columna_tableCli);
             table_cli_parag.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-            PdfPCell cli1 = new PdfPCell( new Phrase("C.I./RUC") );
-            PdfPCell cli2 = new PdfPCell( new Phrase("Nombre") );
-            PdfPCell cli3 = new PdfPCell( new Phrase("Teléfono") );
-            PdfPCell cli4 = new PdfPCell( new Phrase("Dirección") );
+            PdfPCell cli1 = new PdfPCell( new Phrase("C.I./RUC", negrita) );
+            PdfPCell cli2 = new PdfPCell( new Phrase("Nombre", negrita) );
+            PdfPCell cli3 = new PdfPCell( new Phrase("Teléfono", negrita) );
+            PdfPCell cli4 = new PdfPCell( new Phrase("Dirección", negrita) );
 
             cli1.setBorder(0);
             cli2.setBorder(0);
@@ -858,25 +858,31 @@ public class Sistema extends JFrame{
             doc.add(table_cli_parag);
 
 
-
+            doc.add(Chunk.NEWLINE);
+            doc.add(Chunk.NEWLINE);
             //PRODUCTOS
 
             PdfPTable table_prod_parag = new PdfPTable(4);
             table_prod_parag.setWidthPercentage(100);
             table_prod_parag.getDefaultCell().setBorder(0);
-            float[] Columna_tableProd = new float[]{20f, 50f, 30f, 40f};
+            float[] Columna_tableProd = new float[]{10f, 50f, 15f, 20f};
             table_prod_parag.setWidths(Columna_tableProd);
             table_prod_parag.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-            PdfPCell pro1 = new PdfPCell( new Phrase("Cantidad") );
-            PdfPCell pro2 = new PdfPCell( new Phrase("Descripción") );
-            PdfPCell pro3 = new PdfPCell( new Phrase("Precio Unitario") );
-            PdfPCell pro4 = new PdfPCell( new Phrase("Total") );
+            PdfPCell pro1 = new PdfPCell( new Phrase("Cantidad", negrita) );
+            PdfPCell pro2 = new PdfPCell( new Phrase("Descripción", negrita) );
+            PdfPCell pro3 = new PdfPCell( new Phrase("Precio Unitario", negrita) );
+            PdfPCell pro4 = new PdfPCell( new Phrase("Total", negrita) );
 
             pro1.setBorder(0);
             pro2.setBorder(0);
             pro3.setBorder(0);
             pro4.setBorder(0);
+
+            pro1.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            pro2.setBackgroundColor(BaseColor.DARK_GRAY);
+            pro3.setBackgroundColor(BaseColor.DARK_GRAY);
+            pro4.setBackgroundColor(BaseColor.DARK_GRAY);
 
             table_prod_parag.addCell(pro1);
             table_prod_parag.addCell(pro2);
