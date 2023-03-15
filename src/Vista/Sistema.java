@@ -13,7 +13,6 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -75,11 +74,11 @@ public class Sistema extends JFrame{
     private JButton btnExcelProducto;
     private JTable TableVentasTodas;
     private JButton btnPdfVentas;
-    private JTextField textField22;
-    private JTextField textField23;
-    private JTextField textField24;
-    private JTextField textField25;
-    private JTextField textField26;
+    private JTextField txtRucConfig;
+    private JTextField txtTelefConfig;
+    private JTextField txtNombreConfig;
+    private JTextField txtDireccionConfig;
+    private JTextField txtRazonConfig;
     private JButton ACTUALIZARButton;
     private JLabel LabelTotal;
     private JTextField txtTelefonoCV;
@@ -91,6 +90,7 @@ public class Sistema extends JFrame{
     private JTextField txtIdVenta;
     private JTextField txtIDpro;
     private JLabel LabelVendedor;
+    private JTextField txtIdConfig;
     //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
     //EN EL SEGUNDO TAB. la tabla tiene columnas Cédula/RUC, Nombre, Teléfono, Dirección, Razón Social
     //EN EL TERCER TAB, la tabla tiene las columnas ID, RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
@@ -105,6 +105,7 @@ public class Sistema extends JFrame{
     Venta ven = new Venta();
     VentaDAO venta_dao = new VentaDAO();
     Detalle Dven = new Detalle();
+    Config conf = new Config();
 
     int item = 0;
     double total_a_pagar = 0.0;
@@ -121,6 +122,7 @@ public class Sistema extends JFrame{
         setLocationRelativeTo(null);
         setSize(1300,700);
         txtIdCliente.setVisible(false);
+        ListarConfig();
 
 
 
@@ -683,6 +685,17 @@ public class Sistema extends JFrame{
     }
 
 
+    public void ListarConfig(){
+        conf = Prod_dao.BuscarDatos();
+        txtIdConfig.setText( ""+conf.getId() );
+        txtNombreConfig.setText( ""+conf.getNombre() );
+        txtRucConfig.setText( ""+conf.getRucr() );
+        txtTelefConfig.setText(""+conf.getTelefono());
+        txtDireccionConfig.setText( ""+conf.getDireccion() );
+        txtRazonConfig.setText( ""+conf.getRazon() );
+    }
+
+
     private void LimpiarProductos(){
         txtIdProducto.setText("");
         txtCodigoProducto.setText("");
@@ -781,8 +794,9 @@ public class Sistema extends JFrame{
 
     private void pdf(){
         try{
+            int id = venta_dao.IdVenta();
             FileOutputStream archivo;
-            File file = new File("src/pdf/venta.pdf");
+            File file = new File("src/pdf/venta"+id+".pdf");
             archivo = new FileOutputStream(file);
 
             Document doc = new Document();
@@ -796,7 +810,7 @@ public class Sistema extends JFrame{
             Font negrita = new Font(Font.FontFamily.TIMES_ROMAN,13,Font.BOLD, BaseColor.BLUE);
             fecha.add(Chunk.NEWLINE);
             Date date = new Date();
-            fecha.add( "Factura: 1"+"\nfecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n" );
+            fecha.add( "Factura: "+id+"\nfecha: " + new SimpleDateFormat("dd-MM-yyyy").format(date) + "\n\n" );
 
             PdfPTable Encabezado = new PdfPTable(4);
             Encabezado.setWidthPercentage(100);
@@ -807,11 +821,11 @@ public class Sistema extends JFrame{
             Encabezado.setHorizontalAlignment(Element.ALIGN_LEFT);
 
             Encabezado.addCell(img);
-            String ruc = "123456789";
-            String nom = "Super Compu Mundo Hiper-Mega RED";
-            String telf = "0962151117";
-            String direc = "Quito-Ecuador";
-            String razon = "Super Compu Mundo Hiper-Mega RED";
+            String ruc = txtRucConfig.getText();
+            String nom = txtNombreConfig.getText();
+            String telf = txtTelefConfig.getText();
+            String direc = txtDireccionConfig.getText();
+            String razon = txtRazonConfig.getText();
 
             Encabezado.addCell("");
             Encabezado.addCell("Ruc: " + ruc + "\nNombre: " + nom + "\nTeléfono: " + telf +
@@ -880,9 +894,9 @@ public class Sistema extends JFrame{
             pro4.setBorder(0);
 
             pro1.setBackgroundColor(BaseColor.LIGHT_GRAY);
-            pro2.setBackgroundColor(BaseColor.DARK_GRAY);
-            pro3.setBackgroundColor(BaseColor.DARK_GRAY);
-            pro4.setBackgroundColor(BaseColor.DARK_GRAY);
+            pro2.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            pro3.setBackgroundColor(BaseColor.LIGHT_GRAY);
+            pro4.setBackgroundColor(BaseColor.LIGHT_GRAY);
 
             table_prod_parag.addCell(pro1);
             table_prod_parag.addCell(pro2);
@@ -905,8 +919,32 @@ public class Sistema extends JFrame{
             doc.add(table_prod_parag);
 
 
+            Paragraph info = new Paragraph();
+            info.add(Chunk.NEWLINE);
+            info.add(Chunk.NEWLINE);
+
+            info.add("Total a Pagar: " + LabelTotal.getText());
+            info.setAlignment(Element.ALIGN_RIGHT);
+            doc.add(info);
+
+
+            Paragraph firma = new Paragraph();
+            firma.add(Chunk.NEWLINE);
+            firma.add("Cancelación y Firma\n\n");
+            firma.add("------------------------------------------");
+            firma.setAlignment(Element.ALIGN_CENTER);
+            doc.add(firma);
+
+            Paragraph mensaje = new Paragraph();
+            mensaje.add(Chunk.NEWLINE);
+            mensaje.add("Gracias por su preferencia");
+            mensaje.setAlignment(Element.ALIGN_CENTER);
+            doc.add(mensaje);
+
             doc.close();
             archivo.close();
+
+            Desktop.getDesktop().open(file);
         }catch (IOException | SecurityException | DocumentException e){
 
         }
