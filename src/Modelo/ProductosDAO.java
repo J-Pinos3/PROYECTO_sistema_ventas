@@ -205,4 +205,33 @@ public class ProductosDAO {
     }
 
 
+    public boolean ModificarDatos(Config conf){
+        String sql = "UPDATE config SET ruc = ?, nombre = ?, telefono = ?, direccion = ?, razon = ? WHERE id = ?";
+
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+
+            ps.setString(1, conf.getRucr());
+            ps.setString(2, conf.getNombre());
+            ps.setInt(3, conf.getTelefono());
+            ps.setString(4, conf.getDireccion());
+            ps.setString(5, conf.getRazon());
+            ps.setInt(6, conf.getId());
+
+            ps.execute();
+            return true;
+        }catch (HeadlessException | SQLException e){
+            System.out.println(e.toString());
+            return false;
+        }finally {
+            try{
+                con.close();
+            }catch (SQLException e1){
+                System.out.println("Error: " + e1.toString());
+            }
+        }
+
+
+    }
 }//FIN DE LA CLASE PRODUCTOSDAO

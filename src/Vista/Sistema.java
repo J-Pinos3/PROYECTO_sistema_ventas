@@ -106,6 +106,7 @@ public class Sistema extends JFrame{
     VentaDAO venta_dao = new VentaDAO();
     Detalle Dven = new Detalle();
     Config conf = new Config();
+    Eventos event = new Eventos();
 
     int item = 0;
     double total_a_pagar = 0.0;
@@ -579,11 +580,23 @@ public class Sistema extends JFrame{
         btnGenerarVenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RegistrarVenta();
-                RegistrarDetalle();
-                Actualizar_stock();
-                pdf();
-                LimpiarTableventa();
+
+                if(TableVenta.getRowCount() > 0){
+
+                    if( !"".equals(txtNombreClienteVenta.getText()) ){
+                        RegistrarVenta();
+                        RegistrarDetalle();
+                        Actualizar_stock();
+                        pdf();
+                        LimpiarTableventa();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Seleccione un cliente");
+                    }
+
+                    JOptionPane.showMessageDialog(null, "No hay productos para la venta");
+                }
+
+
 
 
                 //despues de cada venta se deben limpiar los campos de cliente
@@ -599,7 +612,43 @@ public class Sistema extends JFrame{
         });
 
 
+        txtCantidadVenta.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                event.numberKeyPress(e);
+            }
+        });
+        txtPrecioProducto.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                event.numberDecimalKeyPress(e, txtPrecioProducto);
+            }
+        });
 
+        ACTUALIZARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if( !"".equals(txtRucConfig.getText()) || !"".equals(txtNombreConfig.getText()) || !"".equals(txtTelefConfig.getText())
+                        || !"".equals(txtDireccionConfig.getText()) || !"".equals(txtRazonConfig.getText()) || !"".equals(txtIdConfig.getText()) ){
+
+                    conf.setRuc( txtRucConfig.getText() );
+                    conf.setNombre(txtNombreConfig.getText());
+                    conf.setTelefono(Integer.parseInt(txtTelefConfig.getText()));
+                    conf.setDireccion(txtDireccionConfig.getText());
+                    conf.setRazon(txtRazonConfig.getText());
+                    conf.setId(Integer.parseInt(txtIdConfig.getText()));
+
+                    Prod_dao.ModificarDatos(conf);
+                    ListarConfig();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Los campos están vacíos");
+                }
+
+            }
+        });
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
