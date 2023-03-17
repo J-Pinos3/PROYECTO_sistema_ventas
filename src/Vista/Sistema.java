@@ -649,6 +649,19 @@ public class Sistema extends JFrame{
 
             }
         });
+        configButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(5);
+                ListarConfig();
+            }
+        });
+        ventasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane1.setSelectedIndex(4);
+            }
+        });
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
