@@ -115,6 +115,8 @@ public class Sistema extends JFrame{
     DefaultTableModel modeloVenta = new DefaultTableModel(titulosVenta,0);
 
 
+
+
     public Sistema(){
         setContentPane(panel_Sistema);
         setVisible(true);
@@ -660,6 +662,36 @@ public class Sistema extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 tabbedPane1.setSelectedIndex(4);
+                ListarVentasTodas();
+
+            }
+        });
+
+
+        TableVentasTodas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                int fila = TableVentasTodas.rowAtPoint(e.getPoint());
+                txtIdVenta.setText( TableVentasTodas.getValueAt(fila,0).toString() );
+
+            }
+        });
+
+
+        btnPdfVentas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int id = Integer.parseInt( txtIdVenta.getText() );
+                File file = new File("src/pdf/venta"+id+".pdf");
+
+                try {
+                    Desktop.getDesktop().open(file);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
@@ -764,6 +796,25 @@ public class Sistema extends JFrame{
         txtDescripcionProducto.setText("");
         txtCantidadProducto.setText("");
         txtPrecioProducto.setText("");
+    }
+
+
+    public void ListarVentasTodas(){
+        List<Venta> ListarVenta_todas= venta_dao.ListarVentas();
+        String[] titulos = {"ID","Cliente","Vendedor","Total"};
+        DefaultTableModel model_ventas_todas = new DefaultTableModel(titulos, 0);
+
+        Object[] obj = new Object[6];
+        for(int i = 0; i < ListarVenta_todas.size(); i++){
+            obj[0] = ListarVenta_todas.get(i).getId();
+            obj[1] = ListarVenta_todas.get(i).getCliente();
+            obj[2] = ListarVenta_todas.get(i).getVendedor();
+            obj[3] = ListarVenta_todas.get(i).getTotal();
+
+
+            model_ventas_todas.addRow(obj);
+        }
+        TableVentasTodas.setModel(model_ventas_todas);
     }
 
 

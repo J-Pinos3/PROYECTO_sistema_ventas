@@ -3,6 +3,8 @@ package Modelo;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VentaDAO {
 
@@ -125,6 +127,31 @@ public class VentaDAO {
     }
 
 
+    public List ListarVentas(){
 
+        List<Venta> Listaventa = new ArrayList();
+        String sql = "SELECT * FROM ventas";
+
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while( rs.next() ){
+                Venta vent = new Venta();
+                vent.setId(rs.getInt("id"));
+                vent.setCliente(rs.getString("cliente"));
+                vent.setVendedor(rs.getString("Vendedor"));
+                vent.setTotal(rs.getDouble("total"));
+
+                Listaventa.add(vent);
+
+            }
+
+        }catch (HeadlessException | SQLException e){
+            System.out.println("Error: " + e.toString());
+        }
+        return Listaventa;
+    }
 
 }
