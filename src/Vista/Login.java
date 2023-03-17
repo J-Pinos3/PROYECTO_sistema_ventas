@@ -40,10 +40,12 @@ public class Login extends JFrame{
         if(!"".equals(correo) || !"".equals(pass)){
 
             lg = login.log(correo,pass);
+
             System.out.println("CorreoLogin: " + correo);
             System.out.println("PassLogin: " + pass);
+
             if(lg.getCorreo() != null && lg.getPass() != null){
-                Sistema sis = new Sistema();
+                Sistema sis = new Sistema(lg);
                 sis.setVisible(true);
                 this.dispose();
             }else{

@@ -37,7 +37,7 @@ public class LoginDAO {
                 l.setNombre( rs.getString("nombre") );
                 l.setCorreo( rs.getString("correous") );
                 l.setPass( rs.getString("passus") );
-
+                l.setRol(rs.getString("rol"));
 
 
             }
@@ -48,4 +48,32 @@ public class LoginDAO {
         }
         return l;
     }
-}
+
+
+    public boolean Registrar(login reg){
+        String sql = "INSERT INTO usuarios (nombre, correous, passus, rol) VALUES (?,?,?,?)";
+
+        try{
+            con = cn.getConnection();
+            ps = con.prepareStatement(sql);
+
+            ps.setString(1, reg.getNombre());
+            ps.setString(2, reg.getCorreo());
+            ps.setString(3, reg.getPass());
+            ps.setString(4, reg.getRol());
+
+            int res = ps.executeUpdate();
+            if(res > 0){
+                JOptionPane.showMessageDialog(null, "Usuario Registrado Exitosamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al registrar el Usuario");
+            }
+            return true;
+        }catch (SQLException e){
+            System.out.println(e.toString());
+            return false;
+        }
+
+    }
+
+}//FIN DE LA CLASE LOGINDAO

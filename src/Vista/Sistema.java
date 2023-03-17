@@ -115,9 +115,15 @@ public class Sistema extends JFrame{
     DefaultTableModel modeloVenta = new DefaultTableModel(titulosVenta,0);
 
 
-
-
-    public Sistema(){
+    public Sistema(login priv){
+        if( priv.getRol().equals("Vendedor") ){
+            //el vendedor no podrá visualizar info de la empresa
+            configButton.setEnabled(false);
+            LabelVendedor.setText(priv.getNombre());
+        }else{
+            //el administrador tiene acceso a todo pero igual se muestra su nombre
+            LabelVendedor.setText(priv.getNombre());
+        }
         setContentPane(panel_Sistema);
         setVisible(true);
         setTitle("Sistema");
@@ -133,7 +139,7 @@ public class Sistema extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(  !"".equals(txtDniCliente.getText())  || !"".equals(txtNombreCliente.getText()) || !"".equals(txtTelefonoCliente.getText())
-                 || !"".equals(txtDireccionCliente.getText())  || !"".equals(txtRazonCliente.getText()) ){
+                        || !"".equals(txtDireccionCliente.getText())  || !"".equals(txtRazonCliente.getText()) ){
 
                     cl.setDni( Integer.parseInt(txtDniCliente.getText()) );
                     cl.setNombre( txtNombreCliente.getText() );
@@ -205,7 +211,7 @@ public class Sistema extends JFrame{
                     JOptionPane.showMessageDialog(null,"Seleccione una fila");
                 }else{
                     if( !"".equals(txtDniCliente.getText()) || !"".equals(txtNombreCliente.getText()) || !"".equals(txtTelefonoCliente.getText())
-                     || !"".equals(txtDireccionCliente.getText()) || !"".equals(txtRazonCliente.getText()) || !"".equals(txtIdCliente.getText()) ){
+                            || !"".equals(txtDireccionCliente.getText()) || !"".equals(txtRazonCliente.getText()) || !"".equals(txtIdCliente.getText()) ){
 
                         cl.setDni( Integer.parseInt(txtDniCliente.getText()) );
                         cl.setNombre(txtNombreCliente.getText());
@@ -500,7 +506,7 @@ public class Sistema extends JFrame{
 
                         if(stock >= cantidad){
                             item = item + 1;
-                //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
+                            //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
                             //String[] titulos = {"CODIGO","DESCRIPCION","CANTIDAD","PRECIO","TOTAL"};
                             //DefaultTableModel modeloVenta = new DefaultTableModel(titulos,0);
                             for(int i = 0; i < TableVenta.getRowCount(); i++){
@@ -694,6 +700,12 @@ public class Sistema extends JFrame{
                 }
             }
         });
+    }
+
+    //*********************************************//**************************************
+
+    public Sistema(){
+
     }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
