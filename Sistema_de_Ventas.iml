@@ -13,5 +13,6 @@
     <orderEntry type="library" name="swingx-all-1.6.4" level="project" />
     <orderEntry type="library" name="commons-collections4-4.1" level="project" />
     <orderEntry type="library" name="itextpdf-5.5.1" level="project" />
+    <orderEntry type="library" name="jcalendar-1.4" level="project" />
   </component>
 </module>
