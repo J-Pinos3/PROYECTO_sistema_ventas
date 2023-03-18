@@ -91,6 +91,7 @@ public class Sistema extends JFrame{
     private JTextField txtIDpro;
     private JLabel LabelVendedor;
     private JTextField txtIdConfig;
+    private JButton btnRegistrar;
     //EN EL PRIMER TAB. la tabla tiene columnas CODIGO, DESCRIPCION, CANTIDAD, PRECIO, TOTAL
     //EN EL SEGUNDO TAB. la tabla tiene columnas Cédula/RUC, Nombre, Teléfono, Dirección, Razón Social
     //EN EL TERCER TAB, la tabla tiene las columnas ID, RUC, NOMBRE, TELÉFONO, DIRECCIÓN, RAZÓN SOCIAL
@@ -115,11 +116,15 @@ public class Sistema extends JFrame{
     DefaultTableModel modeloVenta = new DefaultTableModel(titulosVenta,0);
 
 
+    public Sistema(){
+    }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
+
     public Sistema(login priv){
         if( priv.getRol().equals("Vendedor") ){
             //el vendedor no podrá visualizar info de la empresa
             configButton.setEnabled(false);
             LabelVendedor.setText(priv.getNombre());
+            btnRegistrar.setEnabled(false);
         }else{
             //el administrador tiene acceso a todo pero igual se muestra su nombre
             LabelVendedor.setText(priv.getNombre());
@@ -700,13 +705,17 @@ public class Sistema extends JFrame{
                 }
             }
         });
+
+        btnRegistrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Registro();
+            }
+        });
+
     }
 
     //*********************************************//**************************************
-
-    public Sistema(){
-
-    }//FIN DEL CONSTRUCTOR DE LA CLASE SISTEMA
 
     public void ListarClientes(){
         List<Cliente> ListarCl = cliente.ListarCliente();

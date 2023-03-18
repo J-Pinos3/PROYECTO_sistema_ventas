@@ -52,10 +52,12 @@ public class Registro extends JFrame{
 
             login.Registrar(lg);
 
+            this.dispose();
+            /*
             Login iniciar = new Login();
             iniciar.setVisible(true);
             this.dispose();
-
+            */
         }
     }
 
